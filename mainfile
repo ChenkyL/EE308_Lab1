@@ -1,0 +1,106 @@
+#include<bits/stdc++.h>
+using namespace std;
+// grobal variables
+const string keywords[32]=
+{
+	"auto","break","case","char","const",
+	"continue","default","do","double","else",
+	"enum","extern","float","for","goto",
+	"if","int","long","register","return",
+	"short","signed","sizeof","static","struct",
+	"switch","typedef","union","unsigned","void",
+	"volatile","while"
+};
+// main function
+int main()
+{
+	// input
+	string filename;
+	int level;
+	cout<<"The path of the code file: ";
+	cin>>filename;
+	cout<<"The completion level (1-4): ";
+	cin>>level;
+	// open the file
+	ifstream infile;
+	infile.open(filename,ios::in);
+	// check whether the file is opened normally
+	if(infile.fail())
+	{
+		cout<<"The file was not successfully opened."
+		<<"\nPlease check that the file currently exists."
+		<<endl;
+		exit(1);
+	}
+	// define variables
+	string s;
+	string elseif="else if";
+	int keywordnum=0;
+	int switchnum=0;
+	int casenums[100]={0};
+	int ifelsenum=0;
+	int ifelseifelsenum=0;
+	//remenber the read line position
+	int indexline=0; 
+	//remenber the specical line position
+	int ifline,elseifline,elseline=0;
+	// read file
+	while(getline(infile,s))
+	{
+		indexline++;
+		// case 1: get the number of keywords
+		for(int i=0;i<32;i++)
+		{
+			int index=s.find(keywords[i]);
+			if(index!=-1)
+			{
+				//"do" will be found in the word "double"
+				if(i==7&&index==s.find(keywords[8]))
+					continue;
+				else
+					keywordnum++;
+			}	
+		}
+		// case 2: get the number of switch and case
+		if(s.find(keywords[25])!=-1)
+			switchnum++;
+		if(s.find(keywords[2])!=-1)
+			casenums[switchnum-1]++;
+		// case 3&4: get the number of if-else&if-elseif-else structure
+		//remenber the position of if
+		if(s.find(keywords[15])!=-1&&s.find(elseif)==-1){
+			ifline=indexline;
+		}
+		//remenber the position and number of elseif
+		if(s.find(elseif)!=-1){
+			if(ifline<elseifline||elseifline==0)
+				ifelseifelsenum++;
+			elseifline=indexline;
+		}
+		//determine the if-else structure
+		if(s.find(keywords[9])!=-1&&s.find(elseif)) //else statements
+		{
+			if(elseifline<ifline)
+				ifelsenum++;
+		}
+	}
+	//outputs
+	if(level>=1)
+		cout<<"total num: "<<keywordnum<<endl;
+	if(level>=2)
+	{
+		cout<<"switch num: "<<switchnum<<endl
+			<<"case num: ";
+		for(int i=0;i<switchnum;i++){
+				cout<<casenums[i]<<" ";
+		}
+		cout<<endl;
+	}
+	if(level>=3)
+		cout<<"if-else num: "<<ifelsenum<<endl;
+	if(level>=4)
+		cout<<"if-elseif-else num: "<<ifelseifelsenum<<endl;
+	// close the file
+	infile.close();
+	return 0;
+}
