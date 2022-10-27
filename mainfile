@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-// grobal variables
+// grobal constant
 const string keywords[32]=
 {
 	"auto","break","case","char","const",
@@ -35,15 +35,16 @@ int main()
 	}
 	// define variables
 	string s;
+	//counters for all cases
 	int keywordnum=0;
 	int switchnum=0;
 	int casenums[100]={0};
 	int ifnum=0;
 	int ifelsenum=0;
 	int ifelseifelsenum=0;
-	//remenber the read line position
+	//the read line position
 	int indexline=0; 
-	//remenber the specical line position
+	//the specical line position
 	int ifline,elseifline,elseline=0;
 	// read file
 	while(getline(infile,s))
@@ -55,7 +56,6 @@ int main()
 			int index=s.find(keywords[i]);
 			if(index!=-1)
 			{
-				//"do" will be found in the word "double"
 				if(i==7&&index==s.find(keywords[8]))
 					continue;
 				else
@@ -68,18 +68,20 @@ int main()
 		if(s.find(keywords[2])!=-1)
 			casenums[switchnum-1]++;
 		// case 4: get the number of if-else&if-elseif-else structure
-		//remenber and count the position of if
-		if(s.find(keywords[15])!=-1&&s.find(elseif)==-1){
+		//remenber the position of if and count the number of if sentence
+		if(s.find(keywords[15])!=-1&&s.find(elseif)==-1)
+		{
 			ifline=indexline;
 			ifnum++;
 		}
 		//remenber the position elseif and count if-elseif-else structure
-		if(s.find(elseif)!=-1){
+		if(s.find(elseif)!=-1)
+		{
 			if(ifline<elseifline||elseifline==0)
 				ifelseifelsenum++;
 			elseifline=indexline;
 		}
-		//determine the number of if-else structure
+		//case 3: calculate the number of if-else structure
 		ifelsenum=ifnum-ifelseifelsenum;
 	}
 	//outputs
@@ -89,9 +91,8 @@ int main()
 	{
 		cout<<"switch num: "<<switchnum<<endl
 			<<"case num: ";
-		for(int i=0;i<switchnum;i++){
-				cout<<casenums[i]<<" ";
-		}
+		for(int i=0;i<switchnum;i++)
+			cout<<casenums[i]<<" ";
 		cout<<endl;
 	}
 	if(level>=3)
