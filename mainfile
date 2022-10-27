@@ -23,7 +23,7 @@ int main()
 	cin>>level;
 	// open the file
 	ifstream infile;
-	infile.open(filename,ios::in);
+	infile.open(filename.c_str(),ios::in);
 	// check whether the file is opened normally
 	if(infile.fail())
 	{
@@ -74,10 +74,7 @@ int main()
 		//remenber the position elseif and count if-elseif-else structure
 		if(s.find(elseif)!=-1){
 			if(ifline<elseifline||elseifline==0)
-			{
 				ifelseifelsenum++;
-				cout<<s<<endl;
-			}
 			elseifline=indexline;
 		}
 		//determine the number of if-else structure
