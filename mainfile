@@ -11,6 +11,7 @@ const string keywords[32]=
 	"switch","typedef","union","unsigned","void",
 	"volatile","while"
 };
+const string elseif="else if";
 // main function
 int main()
 {
@@ -34,10 +35,10 @@ int main()
 	}
 	// define variables
 	string s;
-	string elseif="else if";
 	int keywordnum=0;
 	int switchnum=0;
 	int casenums[100]={0};
+	int ifnum=0;
 	int ifelsenum=0;
 	int ifelseifelsenum=0;
 	//remenber the read line position
@@ -66,10 +67,11 @@ int main()
 			switchnum++;
 		if(s.find(keywords[2])!=-1)
 			casenums[switchnum-1]++;
-		// case 3&4: get the number of if-else&if-elseif-else structure
-		//remenber the position of if
+		// case 4: get the number of if-else&if-elseif-else structure
+		//remenber and count the position of if
 		if(s.find(keywords[15])!=-1&&s.find(elseif)==-1){
 			ifline=indexline;
+			ifnum++;
 		}
 		//remenber the position elseif and count if-elseif-else structure
 		if(s.find(elseif)!=-1){
@@ -78,11 +80,7 @@ int main()
 			elseifline=indexline;
 		}
 		//determine the number of if-else structure
-		if(s.find(keywords[9])!=-1&&s.find(elseif)) //else statements
-		{
-			if(elseifline<ifline)
-				ifelsenum++;
-		}
+		ifelsenum=ifnum-ifelseifelsenum;
 	}
 	//outputs
 	if(level>=1)
