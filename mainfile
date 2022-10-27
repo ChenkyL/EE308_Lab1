@@ -80,10 +80,10 @@ int main()
 			if(ifline<elseifline||elseifline==0)
 				ifelseifelsenum++;
 			elseifline=indexline;
-		}
-		//case 3: calculate the number of if-else structure
-		ifelsenum=ifnum-ifelseifelsenum;
+		}	
 	}
+	//case 3: calculate the number of if-else structure
+	ifelsenum=ifnum-ifelseifelsenum;
 	//outputs
 	if(level>=1)
 		cout<<"total num: "<<keywordnum<<endl;
